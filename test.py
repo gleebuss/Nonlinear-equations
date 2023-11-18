@@ -28,6 +28,7 @@ class Test_simplify_newton(unittest.TestCase):
     '''
     Тесты для упрощенного метода ньютона
     '''
+    
     def test_correct(self):
         pass
     
