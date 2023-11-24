@@ -117,6 +117,66 @@ class Nonlinear_equations:
             x0 = x1
             x1 = xk
 
+    def method_half(self, a, b, eps=1e-6):
+        '''
+        Описание
+        --------
+        Метод половинного деления
+
+        Параметры
+        ----------
+        a : int
+            Левая конечная точка отрезка
+        b : int
+            Правая конечная точка отрезка   
+        eps : float
+            Точность, с которой мы ищем решение
+
+        Возвращает
+        ----------
+        Одно из решений уравнений или же выдает None, если задан неправильно начальный отрезок
+        '''
+        if (self.f(a) * self.f(b) >= 0):
+            return None
+        while b-a > eps:
+            c = (a+b)/2
+            if (self.f(a) * self.f(c) < 0):
+                b = c
+            elif (self.f(b) * self.f(c) < 0):
+                a = c
+            x = (a+b)/2
+        return x
+    
+    def method_simple_iterations(self):
+        '''
+        Описание
+        --------
+        Метод простых итераций
+
+        Параметры
+        ----------
+
+        Возвращает
+        ----------
+        Одно из решений уравнений или же выдает ...
+        '''
+        pass
+
+    def method_chord(self):
+        '''
+        Описание
+        --------
+        Метод хорд
+
+        Параметры
+        ----------
+
+        Возвращает
+        ----------
+        Одно из решений уравнений или же выдает ...
+        '''
+        pass
+
     def theorem_edges_root(self) -> list:
         '''
         Описание
@@ -191,7 +251,7 @@ class Nonlinear_equations:
         poly = Poly(self.equations, self.x).all_coeffs()
 
         return all(poly[i] ** 2 > poly[i - 1] * poly[i + 1] for i in range(1, len(poly) - 1))
-
+    
     def is_between(self, x, eps=1e-6) -> bool:
         '''
         Описание
