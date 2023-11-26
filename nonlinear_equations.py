@@ -83,7 +83,7 @@ class Nonlinear_equations:
             if abs(x1 - x0) <= eps:
                 return x1
             x0 = x1
-        raise Exception("Упрощенный метод Ньютона не сошелся")
+        raise Exception(f"Упрощенный метод Ньютона не сошелся, {self.equations}")
 
     def secant_method(self, x0, eps=1e-3, delta=0.1) -> float:
         '''

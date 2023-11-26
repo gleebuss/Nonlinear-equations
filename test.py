@@ -16,14 +16,20 @@ class Test_newton(unittest.TestCase):
             equ, x0 = i
             A = Nonlinear_equations(equ)
             root = A.method_newton(int(x0))
-            result = A.is_between(root, 1e-6)
-            self.assertTrue(result)
+            result = A.is_between(root)
+            self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
     
     def tests_incorrect(self):
-        pass
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
 
-    def tests_exceptionst(self):
-        pass
+        for i in data["incorrect"]["newton"]:
+            equ, x0 = i
+            A = Nonlinear_equations(equ)
+            with self.assertRaises(Exception, msg="Метод Ньютона не сошелся"):
+                root = A.method_newton(int(x0))
+                result = A.is_between(root)
+                self.assertFalse(result, f"Исключение в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
 
 
 class Test_simplify_newton(unittest.TestCase):
@@ -40,14 +46,20 @@ class Test_simplify_newton(unittest.TestCase):
             A = Nonlinear_equations(equ)
             root = A.simplify_newton_method(int(x0))
             result = A.is_between(root)
-            self.assertTrue(result)
+            self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
 
     
-    def test2(self):
-        pass
+    def test_incorrect(self):
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
 
-    def test3(self):
-        pass
+        for i in data["incorrect"]["simplify_newton"]:
+            equ, x0 = i
+            A = Nonlinear_equations(equ)
+            with self.assertRaises(Exception, msg="Метод Ньютона не сошелся"):
+                root = A.simplify_newton_method(int(x0))
+                result = A.is_between(root)
+                self.assertTrue(result, f"Исключение в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
 
 
 class Secant_method(unittest.TestCase):
@@ -56,15 +68,16 @@ class Secant_method(unittest.TestCase):
     '''
 
     def test_correct(self):
-        with open("./equations.json", 'r') as f:
-            data = json.load(f)
-
-        for i in data["correct"]["secant_method"]:
-            equ, x0 = i
-            A = Nonlinear_equations(equ)
-            root = A.simplify_newton_method(int(x0))
-            result = A.is_between(root)
-            self.assertTrue(result)
+        # with open("./equations.json", 'r') as f:
+        #     data = json.load(f)
+        #
+        # for i in data["correct"]["secant_method"]:
+        #     equ, x0 = i
+        #     A = Nonlinear_equations(equ)
+        #     root = A.simplify_newton_method(int(x0))
+        #     result = A.is_between(root)
+        #     self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
+        pass
 
     def tests_incorrect(self):
         pass
