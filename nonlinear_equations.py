@@ -27,7 +27,7 @@ class Nonlinear_equations:
         self.df = lambdify(self.x, diff(self.equations, self.x))
         self.polynomial = simplify(equations).is_polynomial()
 
-    def method_newton(self, x0, eps=1e-6) -> float:
+    def method_newton(self, x0, eps=1e-3) -> float:
         '''
         Описание
         --------
@@ -55,7 +55,7 @@ class Nonlinear_equations:
             x0 = x1
         raise Exception("Метод Ньютона не сошелся")
 
-    def simplify_newton_method(self, x0, eps=1e-6) -> float:
+    def simplify_newton_method(self, x0, eps=1e-3) -> float:
         '''
         Описание
         --------
@@ -85,7 +85,7 @@ class Nonlinear_equations:
             x0 = x1
         raise Exception("Упрощенный метод Ньютона не сошелся")
 
-    def secant_method(self, x0, eps=1e-6, delta=0.1) -> float:
+    def secant_method(self, x0, eps=1e-3, delta=0.1) -> float:
         '''
         Описание
         --------
@@ -117,7 +117,7 @@ class Nonlinear_equations:
             x0 = x1
             x1 = xk
 
-    def method_half(self, a, b, eps=1e-6):
+    def method_half(self, a, b, eps=1e-3):
         '''
         Описание
         --------
@@ -147,7 +147,7 @@ class Nonlinear_equations:
             x = (a+b)/2
         return x
 
-    def method_chord(self, a, b, eps=1e-6, max_iter=1000):
+    def method_chord(self, a, b, eps=1e-3, max_iter=1000):
         '''
         Описание
         --------
@@ -256,7 +256,7 @@ class Nonlinear_equations:
 
         return all(poly[i] ** 2 > poly[i - 1] * poly[i + 1] for i in range(1, len(poly) - 1))
     
-    def is_between(self, x, eps=1e-6) -> bool:
+    def is_between(self, x, eps=1e-3) -> bool:
         '''
         Описание
         --------
