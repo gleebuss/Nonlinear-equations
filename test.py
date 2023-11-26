@@ -32,7 +32,16 @@ class Test_simplify_newton(unittest.TestCase):
     '''
     
     def test_correct(self):
-        pass
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
+
+        for i in data["correct"]["simplify_newton"]:
+            equ, x0 = i
+            A = Nonlinear_equations(equ)
+            root = A.simplify_newton_method(int(x0))
+            result = A.is_between(root)
+            self.assertTrue(result)
+
     
     def test2(self):
         pass
@@ -47,7 +56,15 @@ class Secant_method(unittest.TestCase):
     '''
 
     def test_correct(self):
-        pass
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
+
+        for i in data["correct"]["secant_method"]:
+            equ, x0 = i
+            A = Nonlinear_equations(equ)
+            root = A.simplify_newton_method(int(x0))
+            result = A.is_between(root)
+            self.assertTrue(result)
 
     def tests_incorrect(self):
         pass
