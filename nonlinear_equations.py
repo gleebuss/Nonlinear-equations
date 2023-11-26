@@ -146,23 +146,8 @@ class Nonlinear_equations:
                 a = c
             x = (a+b)/2
         return x
-    
-    def method_simple_iterations(self):
-        '''
-        Описание
-        --------
-        Метод простых итераций
 
-        Параметры
-        ----------
-
-        Возвращает
-        ----------
-        Одно из решений уравнений или же выдает ...
-        '''
-        pass
-
-    def method_chord(self):
+    def method_chord(self, a, b, eps=1e-6, max_iter=1000):
         '''
         Описание
         --------
@@ -170,12 +155,31 @@ class Nonlinear_equations:
 
         Параметры
         ----------
+        a : int
+            Левая конечная точка отрезка
+        b : int
+            Правая конечная точка отрезка
+        eps : float
+            Точность, с которой мы ищем решение
+        max_iter : int
+            Максимальное количество итераций
 
         Возвращает
         ----------
-        Одно из решений уравнений или же выдает ...
+        Одно из решений уравнений или же выдает исключение
         '''
-        pass
+        i = 0
+        while i < max_iter:
+            i += 1
+            c = b - ((self.f(b) * (a - b)) / (self.f(a) - self.f(b)))
+
+            if abs(c - b) <= eps:
+                return c
+
+            a = b
+            b = c
+
+        raise Exception("Метод хорд не сошелся")
 
     def theorem_edges_root(self) -> list:
         '''

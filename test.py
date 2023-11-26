@@ -41,3 +41,5 @@ class Test_simplify_newton(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
