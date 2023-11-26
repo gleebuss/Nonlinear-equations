@@ -68,22 +68,27 @@ class Secant_method(unittest.TestCase):
     '''
 
     def test_correct(self):
-        # with open("./equations.json", 'r') as f:
-        #     data = json.load(f)
-        #
-        # for i in data["correct"]["secant_method"]:
-        #     equ, x0 = i
-        #     A = Nonlinear_equations(equ)
-        #     root = A.simplify_newton_method(int(x0))
-        #     result = A.is_between(root)
-        #     self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
-        pass
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
+
+        for i in data["correct"]["secant_method"]:
+            equ, x0 = i
+            A = Nonlinear_equations(equ)
+            root = A.simplify_newton_method(int(x0))
+            result = A.is_between(root)
+            self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
 
     def tests_incorrect(self):
-        pass
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
 
-    def tests_exceptionst(self):
-        pass
+        for i in data["incorrect"]["secant_method"]:
+            equ, x0 = i
+            A = Nonlinear_equations(equ)
+            with self.assertRaises(Exception, msg="Метод секущихся не сошелся"):
+                root = A.simplify_newton_method(int(x0))
+                result = A.is_between(root)
+                self.assertTrue(result, f"Исключение в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
 
 
 class Method_half(unittest.TestCase):
