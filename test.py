@@ -144,14 +144,44 @@ class Method_chord(unittest.TestCase):
     Тесты для метода хорд
     '''
 
+    @staticmethod
+    def find_interval_endpoints(equation, step=1.0, max_iterations=100):
+        x = symbols('x')
+        f = lambdify(x, equation)
+        a, b = 0, step
+        iterations = 0
+
+        while f(a) * f(b) >= 0:
+            a, b = b, b + step
+            iterations += 1
+            if iterations > max_iterations:
+                raise Exception(f"Не удалось найти конечные точки интервала {equation}")
+        return a, b
+
     def test_correct(self):
-        pass
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
+
+        for i in data["correct"]["method_chord"]:
+            equ, x0 = i
+            A = Nonlinear_equations(equ)
+            a, b = self.find_interval_endpoints(equ)
+            root = A.method_chord(a, b)
+            result = A.is_between(root)
+            self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}', крайние точки={a, b}, корень={root}")
 
     def tests_incorrect(self):
-        pass
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
 
-    def tests_exceptionst(self):
-        pass
+        for i in data["incorrect"]["method_chord"]:
+            equ, x0 = i
+            A = Nonlinear_equations(equ)
+            with self.assertRaises(Exception, msg="Не удалось найти конечно точки интервала"):
+                a, b = self.find_interval_endpoints(equ)
+                root = A.method_half(a, b)
+                result = A.is_between(root)
+                self.assertTrue(result, f"Исключение в примере: уравнение='{equ}', крайние точки={a, b}, корень={root}")
 
 
 
