@@ -25,6 +25,7 @@ class Nonlinear_equations:
         self.equations = equations
         self.f = lambdify(self.x, equations)
         self.df = lambdify(self.x, diff(self.equations, self.x))
+        self.ddf = lambdify(self.x, diff(diff(self.equations, self.x), self.x))
         self.polynomial = simplify(equations).is_polynomial()
 
     def method_newton(self, x0, eps=1e-3) -> float:
@@ -136,6 +137,7 @@ class Nonlinear_equations:
         ----------
         Одно из решений уравнений или же выдает None, если задан неправильно начальный отрезок
         '''
+
         if (self.f(a) * self.f(b) >= 0):
             return None
         while b-a > eps:
@@ -168,17 +170,21 @@ class Nonlinear_equations:
         ----------
         Одно из решений уравнений или же выдает исключение
         '''
-        i = 0
-        while i < max_iter:
-            i += 1
-            c = b - ((self.f(b) * (a - b)) / (self.f(a) - self.f(b)))
 
-            if abs(c - b) <= eps:
-                return c
-
-            a = b
-            b = c
-
+        if self.f(a) * self.ddf(a) > 0:
+            x0 = b
+            x1 = x0 - (self.f(x0) / (self.f(x0) - self.f(a))) * (x0 - a)
+            while abs(x0 - x1) > eps:
+                x0 = x1
+                x1 = x0 - (self.f(x0) / (self.f(x0) - self.f(a))) * (x0 - a)
+            return x1
+        if self.f(a) * self.ddf(a) < 0:
+            x0 = a
+            x1 = x0 - (self.f(x0) / (self.f(b) - self.f(x0))) * (b - x0)
+            while abs(x0 - x1) > eps:
+                x0 = x1
+                x1 = x0 - (self.f(x0) / (self.f(b) - self.f(x0))) * (b - x0)
+            return x1
         raise Exception("Метод хорд не сошелся")
 
     def theorem_edges_root(self) -> list:
