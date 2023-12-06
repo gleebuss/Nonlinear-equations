@@ -259,9 +259,6 @@ class Nonlinear_equations:
         poly = Poly(self.equations, self.x).all_coeffs()
 
         return all(poly[i] ** 2 > poly[i - 1] * poly[i + 1] for i in range(1, len(poly) - 1))
-
-    def lower_and_upper_limits(self):
-        pass
     
     def is_between(self, x, eps=1e-3) -> bool:
         '''
@@ -301,23 +298,23 @@ class Nonlinear_equations:
         Одно из решений уравнений или выдает исключение, если не удалось найти решение за максимальное количество попыток.
         '''
         a, b = self.theorem_edges_root()
-        
-        x0 = (a+b)//2
-        # (self.method_half, (a, b)),
-        # (self.simplify_newton_method, (x0,)),
-        # (self.method_chord, (a, b)),
-        # (self.secant_method, (x0, eps)),
+        print(a, b)
+        x0 = (a+b)/2
         methods = [
-            (self.method_newton, (x0, eps))]
+            (self.method_half, (a, b)),
+            (self.secant_method, (x0, eps)),
+            (self.simplify_newton_method, (x0,)),
+            (self.method_newton, (x0, eps)),
+            (self.method_chord, (a, b))]
         attempts = 0
         for method, args in methods:
             attempts = attempts + 1
             try:
                 print(attempts)
-                solution = method(*args)
                 print(f"{method.__name__}")
+                solution = method(*args)
                 result = self.is_between(solution)
                 if result:
                     return solution
             except Exception as e:
-                print(f"{method.__name__} не сработал. Попытка {attempts + 1}. Ошибка: {e}")
+                print(f"{method.__name__} не сработал. Попытка {attempts + 1}. Ошибка: {e} Пример: {self.equations}")

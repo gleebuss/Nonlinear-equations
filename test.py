@@ -19,7 +19,7 @@ class Test_newton(unittest.TestCase):
             root = A.method_newton(int(x0))
             result = A.is_between(root)
             self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
-    
+
     def tests_incorrect(self):
         with open("./equations.json", 'r') as f:
             data = json.load(f)
@@ -37,7 +37,7 @@ class Test_simplify_newton(unittest.TestCase):
     '''
     Тесты для упрощенного метода ньютона
     '''
-    
+
     def test_correct(self):
         with open("./equations.json", 'r') as f:
             data = json.load(f)
@@ -49,7 +49,7 @@ class Test_simplify_newton(unittest.TestCase):
             result = A.is_between(root)
             self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}', начальное приближение={x0}, корень={root}")
 
-    
+
     def test_incorrect(self):
         with open("./equations.json", 'r') as f:
             data = json.load(f)
@@ -190,16 +190,15 @@ class universal(unittest.TestCase):
     '''
 
     def test_correct(self):
-        # with open("./equations.json", 'r') as f:
-        #     data = json.load(f)
-        #
-        # for i in data["correct"]["universal"]:
-        #     equ = i
-        #     A = Nonlinear_equations(equ)
-        #     root = A.universal()
-        #     result = A.is_between(root)
-        #     self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}',  корень={root}")
-        pass
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
+
+        for i in data["correct"]["universal"]:
+            equ = i[0]
+            A = Nonlinear_equations(equ)
+            root = A.universal()
+            result = A.is_between(root)
+            self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}',  корень={root}")
 
     def tests_incorrect(self):
         pass
