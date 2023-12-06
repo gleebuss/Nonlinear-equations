@@ -1,5 +1,6 @@
 ##directory
 /__pycache__
+/.vscode
 
 ## files .py
 example.py

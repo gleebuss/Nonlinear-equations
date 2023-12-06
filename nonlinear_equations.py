@@ -220,15 +220,17 @@ class Nonlinear_equations:
         ----------
         Список из двух чисел, число положительных и отрицательных корней
         '''
+        def change_signs(coeff):
+            coeff[:-1] = [-k if i % 2 == 0 else k for i, k in enumerate(coeff[:-1])] if len(coeff) % 2 == 0 else [-k if i % 2 != 0 else k for i, k in enumerate(coeff[:-1])]
+            return coeff
 
         if (self.polynomial == False):
             raise ValueError("Не является алгебраическим уравнением")
         
         poly = Poly(self.equations, self.x).all_coeffs()
-
-        def change_signs(coeff):
-            coeff[1:-1] = [-k if i % 2 == 0 else k for i, k in enumerate(coeff[1:-1])]
-            return coeff
+        change_poly = change_signs(poly.copy())
+        poly = [i for i in poly if i != 0]
+        change_poly = [i for i in change_poly if i != 0]
 
         positive = 0
         for i in range(len(poly) - 1):
@@ -236,8 +238,6 @@ class Nonlinear_equations:
                 positive += 1
 
         negative = 0
-        change_poly = change_signs(poly)
-
         for i in range(len(change_poly) - 1):
             if change_poly[i] * change_poly[i+1] < 0:
                 negative += 1
