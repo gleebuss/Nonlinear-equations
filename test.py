@@ -190,7 +190,15 @@ class universal(unittest.TestCase):
     '''
 
     def test_correct(self):
-        pass
+        with open("./equations.json", 'r') as f:
+            data = json.load(f)
+
+        for i in data["correct"]["universal"]:
+            equ = i
+            A = Nonlinear_equations(equ)
+            root = A.universal()
+            result = A.is_between(root)
+            self.assertTrue(result, f"Ошибка в примере: уравнение='{equ}',  корень={root}")
 
     def tests_incorrect(self):
         pass

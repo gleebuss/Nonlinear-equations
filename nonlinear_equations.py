@@ -308,7 +308,7 @@ class Nonlinear_equations:
         x0 = int((a + b) // 2)
         while attempts < max_attempts:
             try:
-                solution = self.secant_method(x0, a, b)
+                solution = self.secant_method(a, b)
                 result = self.is_between(solution)
                 if result:
                     return solution
@@ -319,7 +319,7 @@ class Nonlinear_equations:
                 print(f"Метод секущих не сработал. Попытка {attempts + 1}. Ошибка: {e}")
 
             try:
-                solution = self.method_half(x0, a, b)
+                solution = self.method_half(a, b)
                 result = self.is_between(solution)
                 if result:
                     return solution
