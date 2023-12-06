@@ -123,34 +123,29 @@ class Nonlinear_equations:
         Описание
         --------
         Метод половинного деления
-
         Параметры
         ----------
         a : int
             Левая конечная точка отрезка
         b : int
-            Правая конечная точка отрезка   
+            Правая конечная точка отрезка
         eps : float
             Точность, с которой мы ищем решение
-
         Возвращает
         ----------
         Одно из решений уравнений или же выдает None, если задан неправильно начальный отрезок
         '''
 
-        if (self.f(a) * self.f(b) >= 0):
+        if self.f(a) * self.f(b) >= 0:
             return None
-        x = 0
         while b-a > eps:
             c = (a+b)/2
-            if (self.f(a) * self.f(c) < 0):
+            if self.f(a) * self.f(c) < 0:
                 b = c
-            elif (self.f(b) * self.f(c) < 0):
+            elif self.f(b) * self.f(c) < 0:
                 a = c
             x = (a+b)/2
-            if (b-a) > eps:
-                return x
-        return None
+        return x
 
     def method_chord(self, a, b, eps=1e-3, max_iter=1000):
         '''
@@ -313,7 +308,7 @@ class Nonlinear_equations:
         # (self.method_chord, (a, b)),
         # (self.secant_method, (x0, eps)),
         methods = [
-            (self.method_newton, (x0,eps))]
+            (self.method_newton, (x0, eps))]
         attempts = 0
         for method, args in methods:
             attempts = attempts + 1
