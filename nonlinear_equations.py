@@ -342,6 +342,7 @@ class Nonlinear_equations:
 
             try:
                 solution = self.simplify_newton_method(x0)
+                result = self.is_between(solution)
                 if result:
                     return solution
                 else:
@@ -352,6 +353,7 @@ class Nonlinear_equations:
 
             try:
                 solution = self.method_newton(x0)
+                result = self.is_between(solution)
                 if result:
                     return solution
                 else:
