@@ -86,7 +86,7 @@ class Nonlinear_equations:
             x0 = x1
         raise Exception(f"Упрощенный метод Ньютона не сошелся, {self.equations}")
 
-    def secant_method(self, x0, eps=1e-3, delta=0.1) -> float:
+    def secant_method(self, x0, eps=1e-3, delta=0.1) -> float | None:
         '''
         Описание
         --------
@@ -140,6 +140,7 @@ class Nonlinear_equations:
 
         if (self.f(a) * self.f(b) >= 0):
             return None
+        x = 0
         while b-a > eps:
             c = (a+b)/2
             if (self.f(a) * self.f(c) < 0):
@@ -147,7 +148,9 @@ class Nonlinear_equations:
             elif (self.f(b) * self.f(c) < 0):
                 a = c
             x = (a+b)/2
-        return x
+            if (b-a) > eps:
+                return x
+        return None
 
     def method_chord(self, a, b, eps=1e-3, max_iter=1000):
         '''
@@ -302,64 +305,23 @@ class Nonlinear_equations:
         ----------
         Одно из решений уравнений или выдает исключение, если не удалось найти решение за максимальное количество попыток.
         '''
-
-        attempts = 0
         a, b = self.theorem_edges_root()
-        x0 = int((a + b) // 2)
-        while attempts < max_attempts:
+        x0 = (a+b)//2
+        # (self.method_half, (a, b)),
+        # (self.simplify_newton_method, (x0,)),
+        # (self.method_chord, (a, b)),
+        # (self.secant_method, (x0, eps)),
+        methods = [
+            (self.method_newton, (x0,eps))]
+        attempts = 0
+        for method, args in methods:
+            attempts = attempts + 1
             try:
-                solution = self.secant_method(x0, a, b)
+                print(attempts)
+                solution = method(*args)
+                print(f"{method.__name__}")
                 result = self.is_between(solution)
                 if result:
                     return solution
-                else:
-                    attempts += 1
-                    continue
             except Exception as e:
-                print(f"Метод секущих не сработал. Попытка {attempts + 1}. Ошибка: {e}")
-
-            try:
-                solution = self.method_half(x0, a, b)
-                result = self.is_between(solution)
-                if result:
-                    return solution
-                else:
-                    attempts += 1
-                    continue
-            except Exception as e:
-                print(f"Метод секущих не сработал. Попытка {attempts + 1}. Ошибка: {e}")
-
-            try:
-                solution = self.secant_method(x0)
-                result = self.is_between(solution)
-                if result:
-                    return solution
-                else:
-                    attempts += 1
-                    continue
-            except Exception as e:
-                print(f"Метод секущих не сработал. Попытка {attempts + 1}. Ошибка: {e}")
-
-            try:
-                solution = self.simplify_newton_method(x0)
-                result = self.is_between(solution)
-                if result:
-                    return solution
-                else:
-                    attempts += 1
-                    continue
-            except Exception as e:
-                print(f"Упрощенный метод Ньютона не сработал. Попытка {attempts + 1}. Ошибка: {e}")
-
-            try:
-                solution = self.method_newton(x0)
-                result = self.is_between(solution)
-                if result:
-                    return solution
-                else:
-                    attempts += 1
-                    continue
-            except Exception as e:
-                print(f"Метод Ньютона не сработал. Попытка {attempts + 1}. Ошибка: {e}")
-
-        raise Exception(f"Не удалось найти решение")
+                print(f"{method.__name__} не сработал. Попытка {attempts + 1}. Ошибка: {e}")
