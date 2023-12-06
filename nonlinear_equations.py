@@ -261,6 +261,9 @@ class Nonlinear_equations:
         poly = Poly(self.equations, self.x).all_coeffs()
 
         return all(poly[i] ** 2 > poly[i - 1] * poly[i + 1] for i in range(1, len(poly) - 1))
+
+    def lower_and_upper_limits(self):
+        pass
     
     def is_between(self, x, eps=1e-3) -> bool:
         '''
@@ -281,3 +284,85 @@ class Nonlinear_equations:
         '''
 
         return -eps < self.f(x) < eps
+
+    def universal(self, eps=1e-3, max_attempts=5):
+        '''
+        Описание
+        --------
+        Универсальный метод для решения нелинейных уравнений.
+
+        Параметры
+        ----------
+        eps : float
+            Точность, с которой мы ищем решение
+        max_attempts : int
+            Максимальное количество попыток
+
+        Возвращает
+        ----------
+        Одно из решений уравнений или выдает исключение, если не удалось найти решение за максимальное количество попыток.
+        '''
+
+        attempts = 0
+        a, b = self.theorem_edges_root()
+        x0 = int((a + b) // 2)
+        while attempts < max_attempts:
+            try:
+                solution = self.secant_method(x0, a, b)
+                result = self.is_between(solution)
+                if result:
+                    return solution
+                else:
+                    attempts += 1
+                    continue
+            except Exception as e:
+                print(f"Метод секущих не сработал. Попытка {attempts + 1}. Ошибка: {e}")
+
+            try:
+                solution = self.method_half(x0, a, b)
+                result = self.is_between(solution)
+                if result:
+                    return solution
+                else:
+                    attempts += 1
+                    continue
+            except Exception as e:
+                print(f"Метод секущих не сработал. Попытка {attempts + 1}. Ошибка: {e}")
+
+            try:
+                solution = self.secant_method(x0)
+                result = self.is_between(solution)
+                if result:
+                    return solution
+                else:
+                    attempts += 1
+                    continue
+            except Exception as e:
+                print(f"Метод секущих не сработал. Попытка {attempts + 1}. Ошибка: {e}")
+
+            try:
+                solution = self.simplify_newton_method(x0)
+                if result:
+                    return solution
+                else:
+                    attempts += 1
+                    continue
+            except Exception as e:
+                print(f"Упрощенный метод Ньютона не сработал. Попытка {attempts + 1}. Ошибка: {e}")
+
+            try:
+                solution = self.method_newton(x0)
+                if result:
+                    return solution
+                else:
+                    attempts += 1
+                    continue
+            except Exception as e:
+                print(f"Метод Ньютона не сработал. Попытка {attempts + 1}. Ошибка: {e}")
+
+
+            # Увеличиваем значение попыток и изменяем начальное приближение для следующей попытки
+            attempts += 1
+            x0 += 1.0
+
+        raise Exception(f"Не удалось найти решение")

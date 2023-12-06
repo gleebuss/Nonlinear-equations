@@ -184,26 +184,9 @@ class Method_chord(unittest.TestCase):
                 self.assertTrue(result, f"Исключение в примере: уравнение='{equ}', крайние точки={a, b}, корень={root}")
 
 
-
-class Theorem_edges_root(unittest.TestCase):
+class universal(unittest.TestCase):
     '''
-    Тесты для теоремы о границах расположения корней алгебраического уравнения
-    '''
-
-    def test_correct(self):
-        pass
-
-    def tests_incorrect(self):
-        pass
-
-    def tests_exceptionst(self):
-        pass
-
-
-
-class Theorem_descartes(unittest.TestCase):
-    '''
-    Тесты для Теоремы Декарта о количестве действительных корней
+    Тесты для универсального метода
     '''
 
     def test_correct(self):
@@ -211,28 +194,3 @@ class Theorem_descartes(unittest.TestCase):
 
     def tests_incorrect(self):
         pass
-
-    def tests_exceptionst(self):
-        pass
-
-
-
-class Theorem_gua(unittest.TestCase):
-    '''
-    Тесты для теоремы Гюа о необходимом условии действительности всех корней алгебраического уравнения
-    '''
-
-    def test_correct(self):
-        pass
-
-    def tests_incorrect(self):
-        pass
-
-    def tests_exceptionst(self):
-        pass
-
-
-if __name__ == '__main__':
-    unittest.main()
-
-
