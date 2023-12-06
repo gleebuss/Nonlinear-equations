@@ -306,6 +306,7 @@ class Nonlinear_equations:
         Одно из решений уравнений или выдает исключение, если не удалось найти решение за максимальное количество попыток.
         '''
         a, b = self.theorem_edges_root()
+        
         x0 = (a+b)//2
         # (self.method_half, (a, b)),
         # (self.simplify_newton_method, (x0,)),
