@@ -298,7 +298,7 @@ class Nonlinear_equations:
         Одно из решений уравнений или выдает исключение, если не удалось найти решение за максимальное количество попыток.
         '''
         a, b = self.theorem_edges_root()
-        print(a, b)
+        # print(a, b)
         x0 = (a+b)/2
         methods = [
             (self.method_half, (a, b)),
@@ -317,4 +317,4 @@ class Nonlinear_equations:
                 if result:
                     return solution
             except Exception as e:
-                # print(f"{method.__name__} не сработал. Попытка {attempts + 1}. Ошибка: {e} Пример: {self.equations}")
+                print(f"")
