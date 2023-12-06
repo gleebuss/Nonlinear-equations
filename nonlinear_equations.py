@@ -362,9 +362,4 @@ class Nonlinear_equations:
             except Exception as e:
                 print(f"Метод Ньютона не сработал. Попытка {attempts + 1}. Ошибка: {e}")
 
-
-            # Увеличиваем значение попыток и изменяем начальное приближение для следующей попытки
-            attempts += 1
-            x0 += 1.0
-
         raise Exception(f"Не удалось найти решение")
