@@ -310,11 +310,11 @@ class Nonlinear_equations:
         for method, args in methods:
             attempts = attempts + 1
             try:
-                print(attempts)
-                print(f"{method.__name__}")
+                # print(attempts)
+                # print(f"{method.__name__}")
                 solution = method(*args)
                 result = self.is_between(solution)
                 if result:
                     return solution
             except Exception as e:
-                print(f"{method.__name__} не сработал. Попытка {attempts + 1}. Ошибка: {e} Пример: {self.equations}")
+                # print(f"{method.__name__} не сработал. Попытка {attempts + 1}. Ошибка: {e} Пример: {self.equations}")
